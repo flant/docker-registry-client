@@ -65,6 +65,7 @@ func NewInsecure(registryUrl, username, password string) (*Registry, error) {
  * error handling this library relies on.
  */
 func WrapTransport(transport http.RoundTripper, url, username, password string) http.RoundTripper {
+	transport.(*http.Transport).TLSNextProto = make(map[string]func(string, *tls.Conn) http.RoundTripper)
 	tokenTransport := &TokenTransport{
 		Transport: transport,
 		Username:  username,
